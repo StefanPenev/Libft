@@ -1,4 +1,4 @@
-#include "../libft.h"
+#include "libft.h"
 
 static size_t	char_check(char const *str, char const c)
 {
@@ -14,16 +14,6 @@ static size_t	char_check(char const *str, char const c)
 		i++;
 	}
 	return (0);
-}
-
-static size_t	str_len(char const *str)
-{
-	size_t	i;
-
-	i = 0;
-	while (*(str + i))
-		i++;
-	return (i);
 }
 
 static char	*str_new(size_t n)
@@ -48,7 +38,7 @@ char	*ft_strtrim(char const *s1, char const *set)
 	start = 0;
 	while (*(s1 + start) && char_check(set, *(s1 + start)))
 		start++;
-	end = str_len(s1);
+	end = ft_strlen(s1);
 	while (end > start && char_check(set, *(s1 + (end - 1))))
 		end--;
 	trim = str_new(end - start);

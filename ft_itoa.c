@@ -1,5 +1,4 @@
-#include "../libft.h"
-#include <stdio.h>
+#include "libft.h"
 
 static int	count_digits(int n)
 {
@@ -31,6 +30,7 @@ char	*ft_itoa(int n)
 	char	*buffer = (char *)malloc(length + 1);
 	if (buffer == NULL)
 		return (NULL);
+	buffer[0] = '0';
 	if (n < 0)
 	{
 		buffer[0] = '-';
@@ -45,9 +45,4 @@ char	*ft_itoa(int n)
 		length--;
 	}
 	return (buffer);
-}
-
-int main()
-{
-	printf("%s", ft_itoa(-2147483648));
 }

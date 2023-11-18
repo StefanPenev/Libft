@@ -1,13 +1,16 @@
-#include "../libft.h"
+#include "libft.h"
 
 void	ft_lstadd_back(t_list **lst, t_list *new)
 {
-	t_list temp;
+	t_list *temp;
 
 	if (lst && new)
 	{
 		if (*lst == NULL)
-			*lst = new;
+        {
+            *lst = new;
+            return ;
+        }
 		temp = *lst;
 		while (temp->next)
 			temp = temp->next;
