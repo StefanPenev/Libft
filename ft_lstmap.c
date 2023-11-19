@@ -1,93 +1,29 @@
 #include "libft.h"
 
-// t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *))
-// {
-// 	t_list		*new;
-// 	t_list		*head;
-// 	t_list		*tail;
-
-// 	if (!lst || !f || !del)
-// 		return (NULL);
-// 	head = NULL;
-// 	if (!(new = ft_lstnew(f(lst->content))))
-// 		return (NULL);
-// 	ft_lstadd_back(&head, new);
-// 	tail = head;
-// 	lst = lst->next;
-// 	while (lst)
-// 	{
-// 		if (!(new = ft_lstnew(f(lst->content))))
-// 		{
-// 			ft_lstclear(&head, del);
-// 			return (NULL);
-// 		}
-// 		ft_lstadd_back(&tail, new);
-// 		tail = tail->next;
-// 		lst = lst->next;
-// 	}
-// 	return (head);
-// }
-
-static t_list	*lst_new(void *content)
-{
-	t_list	*new;
-
-	new = (t_list *)malloc(sizeof(t_list));
-	if (!new)
-		return (NULL);
-	new->content = content;
-	new->next = NULL;
-	return (new);
-}
-
-static void	lst_clear(t_list **lst, void (*del)(void *))
-{
-	if (!lst || !del || !(*lst))
-		return ;
-	lst_clear(&(*lst)->next, del);
-	(del)((*lst)->content);
-	free(*lst);
-	*lst = NULL;
-}
-
-static void	lstadd_back(t_list **lst, t_list *new)
-{
-	t_list	*ptr;
-
-	if (!lst || !new)
-		return ;
-	if (!(*lst))
-	{
-		*lst = new;
-		return ;
-	}
-	ptr = *lst;
-	while (ptr->next)
-		ptr = ptr->next;
-	ptr->next = new;
-}
-
 t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *))
 {
-	t_list	*new_list;
-	t_list	*new_node;
-	void	*set;
+	t_list	*first;
+	t_list	*new;
 
-	if (!lst || !f || !del)
+	if (!f || !del)
 		return (NULL);
-	new_list = NULL;
+	first = NULL;
 	while (lst)
 	{
-		set = f(lst->content);
-		new_node = lst_new(set);
-		if (!new_node)
+		if (!(new = ft_lstnew((*f)(lst->content))))
 		{
-			del(set);
-			lst_clear(&new_list, (*del));
-			return (new_list);
+			while (first)
+			{
+				new = first->next;
+				(*del)(first->content);
+				free(first);
+				first = new;
+			}
+			lst = NULL;
+			return (NULL);
 		}
-		lstadd_back(&new_list, new_node);
+		ft_lstadd_back(&first, new);
 		lst = lst->next;
 	}
-	return (new_list);
+	return (first);
 }

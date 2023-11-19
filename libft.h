@@ -91,4 +91,10 @@ int	ft_lstsize(t_list *lst);
 
 t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *));
 
+void ft_putendl_fd(char *s, int fd);
+
+char	*ft_strjoin(char const *s1, char const *s2);
+
+void	ft_striteri(char *s, void (*f)(unsigned int, char*));
+
 #endif
